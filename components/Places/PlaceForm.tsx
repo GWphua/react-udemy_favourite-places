@@ -5,15 +5,19 @@ import { Colors } from "../../constants/Colors";
 export const PlaceForm: FC = () => {
   const [enteredTitle, setEnteredTitle] = useState("");
 
-  const changeTitleHandler = () => {
+  const changeTitleHandler = (enteredTitle: string) => {
     setEnteredTitle(enteredTitle);
   };
 
   return (
     <ScrollView style={styles.form}>
-      <View style={styles.label}>
-        <Text style={styles.input}>Title</Text>
-        <TextInput onChangeText={changeTitleHandler} value={enteredTitle} />
+      <View>
+        <Text style={styles.label}>Title</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={changeTitleHandler}
+          value={enteredTitle}
+        />
       </View>
     </ScrollView>
   );
