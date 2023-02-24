@@ -10,7 +10,7 @@ interface IPlaceItem {
 export const PlaceItem: FC<IPlaceItem> = ({ place, onSelect }) => {
   return (
     <Pressable onPress={onSelect}>
-      <Image source={{uri: place.imageUri}}/>
+      <Image source={{ uri: place.imageUri }} />
       <View>
         <Text> {place.title} </Text>
         <Text>{place.address} </Text>
@@ -19,7 +19,4 @@ export const PlaceItem: FC<IPlaceItem> = ({ place, onSelect }) => {
   );
 };
 
-
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});

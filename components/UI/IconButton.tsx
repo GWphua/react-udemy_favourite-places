@@ -1,6 +1,6 @@
-import { Pressable, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FC } from "react";
+import { Pressable, StyleSheet } from "react-native";
 
 interface IIconButton {
   icon: keyof typeof Ionicons.glyphMap;
