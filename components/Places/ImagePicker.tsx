@@ -7,28 +7,26 @@ import {
 import { FC, useState } from "react";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
 
-interface IImagePicker {}
-
-export const ImagePicker: FC<IImagePicker> = () => {
-  const [image, setImage] = useState<ImagePickerResult>();
-  const [cameraStatus, requestPermission] = useCameraPermissions();
+export const ImagePicker: FC = () => {
+  // const [image, setImage] = useState<ImagePickerResult>();
+  const [cameraPermissionStatus, requestPermission] = useCameraPermissions();
 
   const verifyPermissions = async () => {
-    if (cameraStatus === null) {
+    if (!cameraPermissionStatus) {
+      Alert.alert("Camera Permission Status does not exist.");
       return false;
     }
 
-    console.log(cameraStatus.status);
-
-    if (cameraStatus.status === PermissionStatus.UNDETERMINED) {
+    if (cameraPermissionStatus.status === PermissionStatus.UNDETERMINED) {
       const permissionResponse = await requestPermission();
 
       return permissionResponse.granted;
     }
-    if (cameraStatus.status === PermissionStatus.DENIED) {
+
+    if (cameraPermissionStatus.status === PermissionStatus.DENIED) {
       Alert.alert(
-        "Insufficient Permissions!",
-        "You need to grant camera permissions to use this app."
+        "Insufficint Permissions!",
+        "You need to grant camera permissions to use this function."
       );
       return false;
     }
@@ -37,40 +35,23 @@ export const ImagePicker: FC<IImagePicker> = () => {
   };
 
   const takeImageHandler = async () => {
-    // const hasPermission = await verifyPermissions();
+    const hasPermission = await verifyPermissions();
 
-    // if (!hasPermission) {
-    //   return;
-    // }
-
-    // const newImage = await launchCameraAsync({
-    //   allowsEditing: true,
-    //   aspect: [16, 9],
-    //   quality: 0.5,
-    // });
-
-    // console.log(newImage);
-
-    // setImage(newImage);
-
-    console.log(cameraStatus?.status);
-    if (cameraStatus && !cameraStatus.granted) {
-      await requestPermission();
+    if (!hasPermission) {
+      return;
     }
 
-    const result = await launchCameraAsync({
+    const image = await launchCameraAsync({
       allowsEditing: true,
-      aspect: [3, 2],
-      quality: 0.2,
+      aspect: [16, 9],
+      quality: 0.5,
     });
-    console.log(result);
-  };
 
-  // };
+    console.log(image);
+  };
 
   return (
     <View>
-      <View>{image && <Text>"GotPic!"</Text>}</View>
       <Button title="Take Image" onPress={takeImageHandler} />
     </View>
   );
