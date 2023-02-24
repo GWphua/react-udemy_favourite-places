@@ -4,7 +4,7 @@ import {
   Text,
   View
 } from "react-native";
-import { Place } from "../models/place";
+import { Place } from "../../models/place";
 import { PlaceItem } from "./PlaceItem";
 
 interface IPlacesList {

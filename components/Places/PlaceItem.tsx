@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { Place } from "../models/place";
+import { Place } from "../../models/place";
 
 interface IPlaceItem {
   place: Place;
