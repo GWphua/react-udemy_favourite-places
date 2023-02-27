@@ -1,15 +1,17 @@
+import { Location } from "./location";
+
 export class Place {
   title: string;
   imageUri: string;
   address: string;
-  location: { lat: number; lng: number };
+  location: Location;
   id: string;
 
   constructor(
     title: string,
     imageUri: string,
     address: string,
-    location: { lat: number; lng: number }
+    location: Location
   ) {
     this.title = title;
     this.imageUri = imageUri;

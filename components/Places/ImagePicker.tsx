@@ -1,14 +1,18 @@
 import {
   launchCameraAsync,
   PermissionStatus,
-  useCameraPermissions,
+  useCameraPermissions
 } from "expo-image-picker";
 import { FC, useState } from "react";
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../../constants/Colors";
 import { OutlinedButton } from "../UI/OutlinedButton";
 
-export const ImagePicker: FC = () => {
+interface IImagePicker {
+  onTakeImage: (imageUri: string | undefined) => void;
+}
+
+export const ImagePicker: FC<IImagePicker> = ({ onTakeImage }) => {
   const [pickedImage, setPickedImage] = useState<string>();
 
   const [cameraPermissionStatus, requestPermission] = useCameraPermissions();
@@ -50,6 +54,7 @@ export const ImagePicker: FC = () => {
     });
 
     setPickedImage(image.uri);
+    onTakeImage(image.uri);
   };
 
   let imagePreview = <Text>No image taken yet.</Text>;
