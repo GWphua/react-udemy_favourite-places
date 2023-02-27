@@ -2,14 +2,20 @@ import { FC, useCallback, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { Colors } from "../../constants/Colors";
 import { Location } from "../../models/location";
+import { Place } from "../../models/place";
+import { ReadableLocation } from "../../models/readableLocation";
 import { Button } from "../UI/Button";
 import { ImagePicker } from "./ImagePicker";
 import { LocationPicker } from "./LocationPicker";
 
-export const PlaceForm: FC = () => {
+interface IPlaceForm {
+  onCreatePlace: (place: Place) => void;
+}
+
+export const PlaceForm: FC<IPlaceForm> = ({ onCreatePlace }) => {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [selectedImage, setSelectedImage] = useState<string>();
-  const [pickedLocation, setPickedLocation] = useState<Location>();
+  const [pickedLocation, setPickedLocation] = useState<ReadableLocation>();
 
   const changeTitleHandler = (enteredTitle: string) => {
     setEnteredTitle(enteredTitle);
@@ -19,14 +25,16 @@ export const PlaceForm: FC = () => {
     setSelectedImage(imageUri);
   };
 
-  const pickLocationHandler = useCallback((location: Location | undefined) => {
-    setPickedLocation(location);
-  }, []);
+  const pickLocationHandler = useCallback(
+    (readableLocation: ReadableLocation | undefined) => {
+      setPickedLocation(readableLocation);
+    },
+    []
+  );
 
   const savePlaceHandler = () => {
-    console.log(enteredTitle);
-    console.log(selectedImage);
-    console.log(pickedLocation);
+    const placeData = new Place(enteredTitle, selectedImage, pickedLocation);
+    onCreatePlace(placeData);
   };
 
   return (
