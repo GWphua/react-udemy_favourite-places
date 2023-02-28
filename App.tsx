@@ -11,10 +11,25 @@ import { IconButton } from "./components/UI/IconButton";
 import { RootStackParamList } from "./models/rootStackParamList";
 import { Colors } from "./constants/Colors";
 import { Map } from "./screens/Map";
+import { useEffect, useState } from "react";
+import { init } from "./utils/database";
+import AppLoading from "expo-app-loading";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
+  const [dbInitialized, setDbInitialized] = useState(false);
+
+  useEffect(() => {
+    init()
+      .then(() => setDbInitialized(true))
+      .catch((error) => console.error(error));
+  }, []);
+
+  if (!dbInitialized) {
+    return <AppLoading />;
+  }
+
   return (
     <>
       <StatusBar style="dark" />

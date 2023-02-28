@@ -3,6 +3,7 @@ import { FC } from "react";
 import { PlaceForm } from "../components/Places/PlaceForm";
 import { Place } from "../models/place";
 import { RootStackParamList } from "../models/rootStackParamList";
+import { insertPlace } from "../utils/database";
 
 interface IAddPlace {
   navigation: NativeStackNavigationProp<
@@ -13,8 +14,9 @@ interface IAddPlace {
 }
 
 export const AddPlace: FC<IAddPlace> = ({ navigation }) => {
-  const createPlaceHandler = (place: Place) => {
-    navigation.navigate("AllPlaces", { places: place });
+  const createPlaceHandler = async (place: Place) => {
+    await insertPlace(place);
+    navigation.navigate("AllPlaces");
   };
 
   return <PlaceForm onCreatePlace={createPlaceHandler} />;

@@ -1,7 +1,13 @@
 import { FC, useCallback, useState } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View
+} from "react-native";
 import { Colors } from "../../constants/Colors";
-import { Location } from "../../models/location";
 import { Place } from "../../models/place";
 import { ReadableLocation } from "../../models/readableLocation";
 import { Button } from "../UI/Button";
@@ -33,6 +39,14 @@ export const PlaceForm: FC<IPlaceForm> = ({ onCreatePlace }) => {
   );
 
   const savePlaceHandler = () => {
+    if (!selectedImage) {
+      Alert.alert("Image cannot be empty.");
+      return;
+    } else if (!pickedLocation) {
+      Alert.alert("Location cannot be empty.");
+      return;
+    }
+
     const placeData = new Place(enteredTitle, selectedImage, pickedLocation);
     onCreatePlace(placeData);
   };
