@@ -20,11 +20,13 @@ interface IPlaceDetails {
 export const PlaceDetails: FC<IPlaceDetails> = ({ navigation, route }) => {
   const [fetchedPlace, setFetchedPlace] = useState<Place>();
 
-  const showOnMapHandler = () => {};
-
   if (!route.params) {
     return null;
   }
+
+  const showOnMapHandler = () => {
+    navigation.navigate("Map", fetchedPlace!.location);
+  };
 
   const selectedPlaceId = route.params!.placeId;
 

@@ -1,7 +1,9 @@
+import { Location } from "./location";
+
 export type RootStackParamList = {
   AllPlaces: undefined;
-  AddPlace: { pickedLatitude: number; pickedLongitude: number } | undefined;
-  Map: undefined;
+  AddPlace: Location | undefined;
+  Map: Location | undefined;
   PlaceDetails: { placeId: string };
   Home: undefined;
 };

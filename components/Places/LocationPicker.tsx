@@ -34,10 +34,7 @@ export const LocationPicker: FC<ILocationPicker> = ({ onPickLocation }) => {
 
   useEffect(() => {
     if (isFocused && route.params) {
-      const mapPickedLocation = new Location(
-        route.params.pickedLatitude,
-        route.params.pickedLongitude
-      );
+      const mapPickedLocation = route.params;
 
       setPickedLocation(mapPickedLocation);
     }

@@ -1,23 +1,28 @@
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { FC, useState, useLayoutEffect, useCallback } from "react";
+import { FC, useCallback, useLayoutEffect, useState } from "react";
 import { Alert, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { MapPressEvent } from "react-native-maps/lib/MapView.types";
 import { IconButton } from "../components/UI/IconButton";
+import { Location } from "../models/location";
 import { RootStackParamList } from "../models/rootStackParamList";
 
-export const Map: FC = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const [selectedLocation, setSelectedLocation] = useState<{
-    latitude: number;
-    longitude: number;
-  }>();
+interface IMap {
+  navigation: NativeStackNavigationProp<RootStackParamList, "Map">;
+  route: RouteProp<RootStackParamList, "Map">;
+}
+
+export const Map: FC<IMap> = ({ navigation, route }) => {
+  const initialLocation = route.params;
+
+  const [selectedLocation, setSelectedLocation] = useState<
+    Location | undefined
+  >(initialLocation);
 
   const region = {
-    latitude: 37.78,
-    longitude: -122.43,
+    latitude: initialLocation ? initialLocation.latitude : 37.78,
+    longitude: initialLocation ? initialLocation.longitude : -122.43,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   };
@@ -35,13 +40,14 @@ export const Map: FC = () => {
       return;
     }
 
-    navigation.navigate("AddPlace", {
-      pickedLatitude: selectedLocation.latitude,
-      pickedLongitude: selectedLocation.longitude,
-    });
+    navigation.navigate("AddPlace", selectedLocation);
   }, [navigation, selectedLocation]);
 
   useLayoutEffect(() => {
+    if (initialLocation) {
+      return;
+    }
+
     navigation.setOptions({
       headerRight: ({ tintColor }) => (
         <IconButton
@@ -52,7 +58,7 @@ export const Map: FC = () => {
         />
       ),
     });
-  }, [navigation, savePickedLocationHandler]);
+  }, [navigation, savePickedLocationHandler, initialLocation]);
 
   return (
     <MapView
