@@ -1,7 +1,7 @@
-import { Place } from "./place";
-
 export type RootStackParamList = {
-  AllPlaces: { places: Place } | undefined;
+  AllPlaces: undefined;
   AddPlace: { pickedLatitude: number; pickedLongitude: number } | undefined;
   Map: undefined;
+  PlaceDetails: { placeId: string };
+  Home: undefined;
 };

@@ -1,7 +1,10 @@
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FC } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../../constants/Colors";
 import { Place } from "../../models/place";
+import { RootStackParamList } from "../../models/rootStackParamList";
 import { PlaceItem } from "./PlaceItem";
 
 interface IPlacesList {
@@ -19,7 +22,11 @@ export const PlacesList: FC<IPlacesList> = ({ places }) => {
     );
   }
 
-  const placeSelect = () => {};
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
+
+  const placeSelect = (id: string) => {
+    navigation.navigate("PlaceDetails", {placeId: id})
+  };
 
   return (
     <FlatList

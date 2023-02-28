@@ -92,6 +92,39 @@ export const fetchPlaces = () => {
       );
     });
   });
-  
+
+  return promise;
+};
+
+export const fetchPlaceDetails = (id: string) => {
+  const promise = new Promise<Place>((resolve, reject) => {
+    database.transaction((tx) => {
+      tx.executeSql(
+        `SELECT * FROM places WHERE id = ?`,
+        [id],
+        (_, result) => {
+          console.log(result);
+          const datapoint = result.rows._array[0];
+          resolve(
+            new Place(
+              datapoint.title,
+              datapoint.imageUri,
+              {
+                address: datapoint.address,
+                latitude: datapoint.lat,
+                longitude: datapoint.lng,
+              },
+              datapoint.id
+            )
+          );
+        },
+        (_, error) => {
+          reject(error);
+          return true;
+        }
+      );
+    });
+  });
+
   return promise;
 };
